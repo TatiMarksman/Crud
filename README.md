@@ -1,59 +1,59 @@
-# Getting Started with Create React App Crud
+# Crud
 
-Bu proje React ile geliştirilmiş basit bir CRUD (Create, Read, Update, Delete) uygulamasıdır.
+A simple CRUD (Create, Read, Update, Delete) application built with React.
 
-## Özellikler
+## Features
 
-- ✅ Post ekleme
-- ✅ Post listeleme
-- ✅ Post düzenleme
-- ✅ Post silme
+- ✅ Add posts
+- ✅ List posts
+- ✅ Edit posts
+- ✅ Delete posts
 - ✅ Modern UI (Tailwind CSS)
 - ✅ JSON Server API
 
-## Kurulum
+## Installation
 
-1. Projeyi klonlayın:
+1. Clone the project:
 ```bash
 git clone https://github.com/TatiMarksman/Crud.git
 cd crud-posts
 ```
 
-2. Bağımlılıkları yükleyin:
+2. Install dependencies:
 ```bash
 npm install
 ```
 
-3. JSON Server'ı başlatın:
+3. Start JSON Server:
 ```bash
 npm run server
 ```
 
-4. React uygulamasını başlatın:
+4. Start React application:
 ```bash
 npm start
 ```
 
-## Kullanım
+## Usage
 
-- **React Uygulaması**: http://localhost:3000
+- **React Application**: http://localhost:3000
 - **JSON Server API**: http://localhost:3001
 
-## Teknolojiler
+## Technologies
 
 - React 19
 - Tailwind CSS
 - JSON Server
 - Fetch API
 
-## Proje Yapısı
+## Project Structure
 
 ```
 src/
-├── api.js              # API fonksiyonları
-├── App.js              # Ana uygulama
+├── api.js              # API functions
+├── App.js              # Main application
 ├── components/
-│   ├── PostForm.js     # Post formu
-│   └── PostList.js     # Post listesi
-└── index.css           # Stiller
+│   ├── PostForm.js     # Post form
+│   └── PostList.js     # Post list
+└── index.css           # Styles
 ```
