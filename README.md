@@ -11,6 +11,4 @@ A simple CRUD (Create, Read, Update, Delete) application built with React.
 - ✅ Modern UI (Tailwind CSS)
 - ✅ JSON Server API
 
-## Passing Build
-
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
