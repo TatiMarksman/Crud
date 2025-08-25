@@ -1,49 +1,38 @@
 import { useState, useEffect } from "react";
 
 export default function PostForm({ onSubmit, postToEdit, onCancel }) {
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
+  const [content, setContent] = useState("");
 
   useEffect(() => {
     if (postToEdit) {
-      setTitle(postToEdit.title);
-      setBody(postToEdit.body);
+      setContent(postToEdit.content);
     }
   }, [postToEdit]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({ title, body, id: postToEdit?.id });
-    setTitle("");
-    setBody("");
+    onSubmit({ content, id: postToEdit?.id });
+    setContent("");
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mb-4">
-      <input
-        type="text"
-        placeholder="Title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        className="border p-2 rounded w-full mb-2"
-        required
-      />
+    <form onSubmit={handleSubmit} className="form">
       <textarea
-        placeholder="Body"
-        value={body}
-        onChange={(e) => setBody(e.target.value)}
-        className="border p-2 rounded w-full mb-2"
+        placeholder="Enter your note content..."
+        value={content}
+        onChange={(e) => setContent(e.target.value)}
+        className="textarea"
         required
       />
-      <div className="flex gap-2">
-        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
+      <div className="button-group">
+        <button type="submit" className="btn btn-primary">
           {postToEdit ? "Update" : "Add"}
         </button>
         {postToEdit && (
           <button
             type="button"
             onClick={onCancel}
-            className="bg-gray-500 text-white px-4 py-2 rounded"
+            className="btn btn-secondary"
           >
             Cancel
           </button>

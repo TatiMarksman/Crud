@@ -1,22 +1,27 @@
-export default function PostList({ posts, onEdit, onDelete }) {
+export default function PostList({ posts, onEdit, onDelete, onUpdate }) {
   return (
     <div>
       {posts.map((post) => (
-        <div key={post.id} className="border p-4 mb-2 rounded shadow">
-          <h2 className="font-bold">{post.title}</h2>
-          <p className="text-gray-700 mb-2">{post.body}</p>
-          <div className="flex gap-2">
+        <div key={post.id} className="post-card">
+          <p className="post-body">{post.content}</p>
+          <div className="post-actions">
+            <button
+              onClick={() => onUpdate(post.id)}
+              className="btn btn-success"
+            >
+              🔄 Update
+            </button>
             <button
               onClick={() => onEdit(post)}
-              className="bg-yellow-500 text-white px-2 py-1 rounded"
+              className="btn btn-warning"
             >
               Edit
             </button>
             <button
               onClick={() => onDelete(post.id)}
-              className="bg-red-500 text-white px-2 py-1 rounded"
+              className="btn btn-danger"
             >
-              Delete
+              ✕ Delete
             </button>
           </div>
         </div>

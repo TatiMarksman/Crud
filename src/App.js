@@ -24,21 +24,33 @@ function App() {
       const created = await createPost(post);
       setPosts([...posts, created]);
     }
+    // Reload all posts after operation
+    const data = await fetchPosts();
+    setPosts(data);
   };
 
   const handleDelete = async (id) => {
     await deletePost(id);
-    setPosts(posts.filter((p) => p.id !== id));
+    // Reload all posts after deletion
+    const data = await fetchPosts();
+    setPosts(data);
   };
 
   const handleEdit = (post) => setPostToEdit(post);
+  
   const handleCancel = () => setPostToEdit(null);
 
+  const handleUpdate = async (id) => {
+    // Reload all posts after update
+    const data = await fetchPosts();
+    setPosts(data);
+  };
+
   return (
-    <div className="p-6 max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-4">CRUD Posts</h1>
+    <div className="container">
+      <h1 className="title">Notes CRUD</h1>
       <PostForm onSubmit={handleSubmit} postToEdit={postToEdit} onCancel={handleCancel} />
-      <PostList posts={posts} onEdit={handleEdit} onDelete={handleDelete} />
+      <PostList posts={posts} onEdit={handleEdit} onDelete={handleDelete} onUpdate={handleUpdate} />
     </div>
   );
 }
