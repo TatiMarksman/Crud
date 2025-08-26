@@ -67,7 +67,7 @@ function App() {
       </form>
 
       {/* общий Update button */}
-      <button onClick={fetchNotes} style={{ margin: "10px 0" }}>
+      <button className="update" onClick={fetchNotes}>
         Обновить
       </button>
 
@@ -76,7 +76,7 @@ function App() {
         {notes.map((note) => (
           <div key={note.id} className="note">
             <span>{note.content}</span>
-            <button onClick={() => deleteNote(note.id)}>Удалить</button>
+            <button className="delete" onClick={() => deleteNote(note.id)}>Удалить</button>
           </div>
         ))}
       </div>
