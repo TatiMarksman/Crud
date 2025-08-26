@@ -1,56 +1,85 @@
-import { useState, useEffect } from "react";
-import PostForm from "./components/PostForm";
-import PostList from "./components/PostList";
-import { fetchPosts, createPost, updatePost, deletePost } from "./api";
+import { useEffect, useState } from "react";
 
 function App() {
-  const [posts, setPosts] = useState([]);
-  const [postToEdit, setPostToEdit] = useState(null);
+  const [notes, setNotes] = useState([]);
+  const [input, setInput] = useState("");
+
+  // GET all notes
+  const fetchNotes = async () => {
+    try {
+      const response = await fetch("http://localhost:7070/notes");
+      if (!response.ok) throw new Error("Ошибка загрузки");
+      const data = await response.json();
+      setNotes(data);
+    } catch (e) {
+      console.error(e);
+      alert("Ошибка при загрузке заметок");
+    }
+  };
 
   useEffect(() => {
-    async function loadPosts() {
-      const data = await fetchPosts();
-      setPosts(data);
-    }
-    loadPosts();
+    fetchNotes();
   }, []);
 
-  const handleSubmit = async (post) => {
-    if (post.id) {
-      const updated = await updatePost(post.id, post);
-      setPosts(posts.map((p) => (p.id === post.id ? updated : p)));
-      setPostToEdit(null);
-    } else {
-      const created = await createPost(post);
-      setPosts([...posts, created]);
+  // POST new note (без id)
+  const addNote = async (e) => {
+    e.preventDefault();
+    if (input.trim() === "") return;
+
+    try {
+      await fetch("http://localhost:7070/notes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content: input }),
+      });
+      setInput("");
+      fetchNotes();
+    } catch (e) {
+      console.error(e);
+      alert("Ошибка при добавлении заметки");
     }
-    // Reload all posts after operation
-    const data = await fetchPosts();
-    setPosts(data);
   };
 
-  const handleDelete = async (id) => {
-    await deletePost(id);
-    // Reload all posts after deletion
-    const data = await fetchPosts();
-    setPosts(data);
-  };
-
-  const handleEdit = (post) => setPostToEdit(post);
-  
-  const handleCancel = () => setPostToEdit(null);
-
-  const handleUpdate = async (id) => {
-    // Reload all posts after update
-    const data = await fetchPosts();
-    setPosts(data);
+  // DELETE note by id
+  const deleteNote = async (id) => {
+    try {
+      await fetch(`http://localhost:7070/notes/${id}`, { method: "DELETE" });
+      fetchNotes();
+    } catch (e) {
+      console.error(e);
+      alert("Ошибка при удалении заметки");
+    }
   };
 
   return (
-    <div className="container">
-      <h1 className="title">Notes CRUD</h1>
-      <PostForm onSubmit={handleSubmit} postToEdit={postToEdit} onCancel={handleCancel} />
-      <PostList posts={posts} onEdit={handleEdit} onDelete={handleDelete} onUpdate={handleUpdate} />
+    <div className="app">
+      <h1>Заметки</h1>
+
+      {/* форма добавления */}
+      <form onSubmit={addNote}>
+        <input
+          type="text"
+          placeholder="Введите текст..."
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+        />
+        <button type="submit">Добавить</button>
+      </form>
+
+      {/* общий Update button */}
+      <button onClick={fetchNotes} style={{ margin: "10px 0" }}>
+        Обновить
+      </button>
+
+      {/* список заметок */}
+      <div className="notes">
+        {notes.map((note) => (
+          <div key={note.id} className="note">
+            <span>{note.content}</span>
+            <button onClick={() => deleteNote(note.id)}>Удалить</button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
